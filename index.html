@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+<head>
+  <script data-require="angular.js@1.5.6" data-semver="1.5.6" src="https://code.angularjs.org/1.5.6/angular.min.js"></script>
+
+  <link href="style.css" rel="stylesheet" />
+  <script src="script.js"></script>
+</head>
+
+<body ng-controller="mainController">
+  <form name="myForm" id="myForm">
+    <input type="text" ng-model="name" name="name" placeholder="название задачи" />
+    <input type="tel" pattern="\d+(.\d{1,2})?" ng-model="quantity" name="quantity" placeholder="цена вопроса (р/час)" />
+    <div id="counterM"></div>
+    <input type="button" ng-click="go()" ng-class="hiddenCheckGo()" value="запустить" />
+    <input type="button" ng-click="stopSave()" ng-class="hiddenCheckStop()" value="остановить" />
+  </form>
+
+  <table style="width:65%" id="tasksTable">
+    <thead>
+      <tr>
+        <td style="width:15%">Наименование</td>
+        <td style="width:15%">Цена</td>
+        <td style="width:15%">Затраченное время</td>
+        <td style="width:15%">Прибыль</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="task in tasksList">
+        <td>
+          <div style="cursor:pointer" title="кликните, для изменения" ng-bind="task.name" ng-click="nameUpdate(this, $index)" onclick="C = this.parentElement.cellIndex"></div>
+
+          <div class="hidden">
+            <form id="myNameUpdateFormHidden" name="myNameUpdateFormHidden">
+              <input type="text" name="taskNameUpdate" ng-value="task.name" ng-model="updateName" />
+              <input type="button" value="ок" ng-click="nameUpdated(this, $index)" onclick="C = this.parentElement.parentElement.parentElement.cellIndex" />
+            </form>
+          </div>
+
+          <div>
+            <input type="button" ng-class="hiddenCheckName(this)" onclick="C = this.parentElement.parentElement.cellIndex" value="ввести имя" ng-click="nameUpdate(this, $index)" />
+          </div>
+        </td>
+        <td>
+          <div style="cursor:pointer" title="кликните, для изменения" ng-bind="task.quantity" ng-click="quantityUpdate(this, $index)" onclick="C = this.parentElement.cellIndex"></div>
+
+          <div ng-controller="сhildController" class="hidden">
+            <form id="myQuantityUpdateFormHidden" name="myQuantityUpdateFormHidden">
+              <input type="tel" pattern="\d+(.\d{1,2})?" name="taskQuantityUpdate" ng-value="task.quantity" ng-model="updateQuantity" />
+              <input type="button" value="ок" ng-click="quantityUpdated(this, $index)" onclick="C = this.parentElement.parentElement.parentElement.cellIndex" />
+            </form>
+          </div>
+
+          <div>
+            <input type="button" ng-class="hiddenCheckQuantity(this)" onclick="C = this.parentElement.parentElement.cellIndex" value="задать цену" ng-click="quantityUpdate(this, $index)" />
+          </div>
+        </td>
+        <td>
+          <div ng-bind="task.counter"></div>
+        </td>
+        <td>
+          <div ng-bind="task.profit" ng-class="hiddenCheckProfit(this)"></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+
+</html>

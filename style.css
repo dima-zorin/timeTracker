@@ -1,0 +1,11 @@
+#counterM {
+  display: inline-block;
+}
+
+.hidden {
+  display: none;
+}
+
+.notHidden {
+  display: initial;
+}
